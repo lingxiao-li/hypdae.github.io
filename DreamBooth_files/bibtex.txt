@@ -1,0 +1,6 @@
+@INPROCEEDINGS{Li24,
+  title = {BIFRÖST: 3D-Aware Image compositing with Language Instructions},
+  author = {Lingxiao Li and Kaixiong Gong and Weihong Li and Xili Dai and Tao Chen and Xiaojun Yuan and Xiangyu Yue},
+  booktitle={Advanced Neural Information Processing System (NeurIPS)},
+  year={2024}
+}
