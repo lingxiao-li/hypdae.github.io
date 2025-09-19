@@ -4,16 +4,22 @@
 body {
   font-family: 'Open-Sans', sans-serif;
   font-weight: 300;
-  background-color: #fff;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
 }
 .content {
   width: 1000px;
-  padding: 25px 50px;
-  margin: 25px auto;
+  padding: 30px 60px;
+  margin: 30px auto;
   background-color: white;
-  box-shadow: 0px 0px 10px #999;
-  border-radius: 15px;
+  box-shadow: 0px 8px 30px rgba(0,0,0,0.12);
+  border-radius: 20px;
   font-family: "Google Sans";
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.content:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 15px 40px rgba(0,0,0,0.15);
 }
 .contentblock {
   width: 950px;
@@ -47,12 +53,28 @@ a, a:visited {
 }
 h1 {
   text-align: center;
-  font-size: 35px;
-  font-weight: 300;
+  font-size: 42px;
+  font-weight: 400;
+  background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 30px;
+  line-height: 1.2;
 }
 h2 {
-  font-size: 30px;
-  font-weight: 300;
+  font-size: 32px;
+  font-weight: 400;
+  color: #2c3e50;
+  border-bottom: 3px solid #3498db;
+  padding-bottom: 10px;
+  margin-bottom: 25px;
+}
+h3 {
+  font-size: 24px;
+  font-weight: 400;
+  color: #34495e;
+  margin-top: 25px;
+  margin-bottom: 15px;
 }
 code {
   display: block;
@@ -105,17 +127,36 @@ p code {
   display: block;
   margin-left: auto;
   margin-right: auto;
+  border-radius: 15px;
+  box-shadow: 0px 8px 25px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+.teaser-img:hover {
+  transform: scale(1.02);
 }
 .teaser-gif {
   display: block;
   margin-left: auto;
   margin-right: auto;
+  border-radius: 15px;
+  box-shadow: 0px 8px 25px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+.teaser-gif:hover {
+  transform: scale(1.02);
 }
 .summary-img {
   width: 100%;
   display: block;
   margin-left: auto;
   margin-right: auto;
+  border-radius: 12px;
+  box-shadow: 0px 6px 20px rgba(0,0,0,0.08);
+  margin-bottom: 10px;
+  transition: transform 0.3s ease;
+}
+.summary-img:hover {
+  transform: scale(1.01);
 }
 .video-iframe {
   width: 1000;
@@ -149,4 +190,70 @@ p code {
 }
 .spacertd {
   width: 40px;
+}
+
+/* Enhanced styles for HypDAE */
+a, a:visited {
+  color: #3498db;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+a:hover {
+  color: #2980b9;
+  text-decoration: underline;
+}
+#authors a {
+  margin: 0 8px;
+  color: #2c3e50;
+  font-weight: 600;
+}
+#authors a:hover {
+  color: #3498db;
+}
+p {
+  line-height: 1.8;
+  color: #34495e;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+/* Paper link styles */
+font[size="+2"] a {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: 600;
+  text-decoration: none;
+  margin: 0 10px;
+  display: inline-block;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0px 4px 15px rgba(102, 126, 234, 0.4);
+}
+font[size="+2"] a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 8px 25px rgba(102, 126, 234, 0.6);
+  color: white;
+}
+
+/* Code block styling */
+code {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 15px;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  box-shadow: 0px 8px 25px rgba(0,0,0,0.1);
+}
+
+/* Caption styling */
+p[style*="text-align:center"][style*="font-style:italic"] {
+  font-size: 14px;
+  color: #7f8c8d;
+  margin-top: 8px;
+  margin-bottom: 25px;
+  font-style: italic;
 }

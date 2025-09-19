@@ -1,6 +1,6 @@
-@INPROCEEDINGS{Li24,
-  title = {BIFRÖST: 3D-Aware Image compositing with Language Instructions},
-  author = {Lingxiao Li and Kaixiong Gong and Weihong Li and Xili Dai and Tao Chen and Xiaojun Yuan and Xiangyu Yue},
-  booktitle={Advanced Neural Information Processing System (NeurIPS)},
+@article{li2024hypdae,
+  title={HypDAE: Hyperbolic Diffusion Autoencoders for Hierarchical Few-shot Image Generation},
+  author={Lingxiao Li and Kaixuan Fan and Boqing Gong and Xiangyu Yue},
+  journal={arXiv preprint arXiv:2411.17784},
   year={2024}
 }
