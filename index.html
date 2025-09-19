@@ -4,8 +4,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>HypDAE: Hyperbolic Diffusion Autoencoders for Hierarchical Few-shot Image Generation</title>
     <link href="./DreamBooth_files/style.css" rel="stylesheet">
-    <script type="text/javascript" src="./DreamBooth_files/jquery.mlens-1.0.min.js"></script> 
-    <script type="text/javascript" src="./DreamBooth_files/jquery.js"></script>
 </head>
 
 <body>
@@ -14,12 +12,12 @@
   <p id="authors"><span><a href="https://lingxiao-li.github.io/">Lingxiao Li</a><a href="https://scholar.google.com/citations?user=V2KHBeUAAAAJ">Kaixuan Fan</a><a href="https://boqinggong.github.io/">Boqing Gong</a><a href="https://xyue.io/">Xiangyu Yue</a></span><br>
     <span style="font-size: 24px">MMLab, The Chinese University of Hong Kong & Boston University</span></p>
   <br>
-  <img src="./DreamBooth_files/Figure_1.png" class="teaser-gif" style="width:100%;"><br>
-  <h3 style="text-align:center">Bifröst results on various personalized image compositing tasks. Top: Bifröst is adept at precise, arbitrary object placement and replacement in a background image with a reference object and a language instruction, and achieves 3D-aware high-fidelity harmonized compositing results; Bottom Left: Given a coarse mask, Bifröst can change the pose of the object to follow the shape of the mask; Bottom Right: Our model adapts the identity of the reference image to the target image without changing the pose.</h3>
+  <img src="./HypDAE_images/Hierarchy-1.png" class="teaser-gif" style="width:100%;"><br>
+  <h3 style="text-align:center">Illustration of hierarchical text-image representation in hyperbolic space. Hyperbolic space provides a natural and compact encoding for semantic hierarchies in large datasets. Adjusting high-level, identity-relevant attributes alters an image's identity, while modifying low-level, identity-irrelevant attributes produces variations within the same identity.</h3>
   <font size="+2">
           <p style="text-align: center;">
-            <a href="https://arxiv.org/abs/2410.19079" target="_blank">[Paper]</a> &nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="https://github.com/lingxiao-li/Bifrost" target="_blank">[Code]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="https://arxiv.org/abs/2411.17784" target="_blank">[Paper]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="https://github.com/lingxiao-li/HypDAE" target="_blank">[Code]</a> &nbsp;&nbsp;&nbsp;&nbsp;
             <a href="DreamBooth_files/bibtex.txt" target="_blank">[BibTeX]</a>
           </p>
   </font>
@@ -27,91 +25,87 @@
 
 <div class="content">
   <h2 style="text-align:center;">Abstract</h2>
-  <p>This paper introduces <em>Bifröst</em>, a novel 3D-aware framework that is built upon diffusion models to perform instruction-based image composition. Previous methods concentrate on image compositing at the 2D level, which fall short in handling complex spatial relationships (<em>e.g.</em>, occlusion). <em>Bifröst</em> addresses these issues by training MLLM as a 2.5D location predictor and integrating depth maps as an extra condition during the generation process to bridge the gap between 2D and 3D, which enhances spatial comprehension and supports sophisticated spatial interactions. Our method begins by fine-tuning MLLM with a custom counterfactual dataset to predict 2.5D object locations in complex backgrounds from language instructions. Then, the image-compositing model is uniquely designed to process multiple types of input features, enabling it to perform high-fidelity image compositions that consider occlusion, depth blur, and image harmonization. Extensive qualitative and quantitative evaluations demonstrate that <em>Bifröst</em> significantly outperforms existing methods, providing a robust solution for generating realistically composited images in scenarios demanding intricate spatial understanding. This work not only pushes the boundaries of generative image compositing but also reduces reliance on expensive annotated datasets by effectively utilizing existing resources in innovative ways.
-
-</p>
+  <p>Few-shot image generation aims to generate diverse and high-quality images for an unseen class given only a few examples in that class. A key challenge in this task is balancing category consistency and image diversity, which often compete with each other. Moreover, existing methods offer limited control over the attributes of newly generated images. In this work, we propose <strong>Hyperbolic Diffusion Autoencoders (HypDAE)</strong>, a novel approach that operates in hyperbolic space to capture hierarchical relationships among images from seen categories. By leveraging pre-trained foundation models, HypDAE generates diverse new images for unseen categories with exceptional quality by varying stochastic subcodes or semantic codes. Most importantly, the hyperbolic representation introduces an additional degree of control over semantic diversity through the adjustment of radii within the hyperbolic disk. Extensive experiments and visualizations demonstrate that HypDAE significantly outperforms prior methods by achieving a better balance between preserving category-relevant features and promoting image diversity with limited data. Furthermore, HypDAE offers a highly controllable and interpretable generation process.</p>
 </div>
 
 <div class="content">
   <h2>Introduction</h2>
-  <p>Achieving arbitrary personalized object-level image compositing necessitates a deep understanding of the visual concept inherent to both the identity of the reference object and spatial relations of the background image. To date, this task has not been well addressed. Paint-by-Example (Yang et al., 2023) and Objectstitch (Song et al., 2023) use a target image as the template to edit a specific region of the background image, but they could not generate ID-consistent contents, especially for untrained categories. On the other hand, (Chen et al., 2024; Song et al., 2024) generate objects with ID (identity) preserved in the target scene, but they fall short in processing complicated 3D geometry relations (e.g., the occlusion) as they only consider 2D-level composition. To sum up, previous methods mainly either 1) fail to achieve both ID preservation and background harmony, or 2) do not explicitly take into account the geometry behind the background and fail to accurately composite objects and backgrounds in complex spatial relations. </p>
-  <p>We conclude that the root cause of the aforementioned issues is that image composition is conducted at a 2D level. Ideally, the composition operation should be done in a 3D space for precise 3D geometry relationships. However, accurately modeling a 3D scene with any given image, especially with only one view, is non-trivial and time-consuming (Liu et al., 2023b). To address these challenges, we introduce Bifröst†, which offers a 3D-aware framework for image composition without explicit 3D modeling. We achieve this by leveraging depth to indicate the 3D geometry relationship between the object and the background. In detail, our approach leverages a multi-modal large language model (MLLM) as a 2.5D location predictor (i.e., bounding box and depth for the object in the given background image). With the predicted bounding box and depth, our method yields a depth map for the composited image, which is fed into a diffusion model as guidance. This enables our method to achieve good ID preservation and background harmony simultaneously, as it is now aware of the spatial relations between them, and the conflict at the dimension of depth is eliminated. In addition, MLLM enables our method to composite images with text instructions, which enlarges the application scenario of Bifröst. Bifröst achieves significantly better visual results than the previous method, which in turn validates our conclusion. </p>
-  <p>Our main contributions can be summarized as follows: 1) We are the first to embed depth into the image composition pipeline, which improves the ID preservation and background harmony simultaneously. 2) We delicately build a counterfactual dataset and fine-tuned MLLM as a powerful tool to predict 2.5D location of the object in a given background image. Further, the fine-tuned MLLM enables our approach to understand language instructions for image composition. 3) Our approach has demonstrated exceptional performance through comprehensive qualitative assessments and quantitative analyses on image compositing and outperforms other methods, Bifröst allows us to generate images with better control of occlusion, depth blur, and image harmonization. </p>  
-    <br>
-  <img class="summary-img" src="./DreamBooth_files/inference_pipeline.png" style="width:100%;"> <br>
+  <p>Generative models have succeeded in generating high-fidelity and realistic images, partially thanks to a large volume of high-quality data for model training. However, with the widespread presence of long-tail distributions and data imbalances across image categories, there are many scenarios in the real world where it is impossible to collect sufficient samples of certain categories for model training. It is difficult for generative models trained on well-sampled categories to generate realistic and diverse images for a novel category given only a few examples. This challenging task is known as <strong>few-shot image generation</strong>, which aims to synthesize images that preserve the category-level identity of the limited input samples.</p>
+  
+  <p>Existing few-shot image generation methods are primarily GAN-based and fall into three categories: <em>transfer-based</em> approaches, which use meta-learning or domain adaptation for cross-category generalization but often face limited transferability; <em>fusion-based</em> approaches, which fuse features from multiple exemplars but tend to produce outputs overly similar to the inputs; and <em>transformation-based</em> approaches, which apply intra-category perturbations without fine-tuning but often lack diversity.</p>
+  
+  <p>In contrast to prior methods, recent work highlights the importance of modeling hierarchical structures in few-shot image generation. Similar to language, images also exhibit semantic hierarchies, where each image can be viewed as a composition of attributes at different levels. High-level, identity-relevant attributes (e.g., gender or age) define the semantic core of a category, while low-level, identity-irrelevant attributes (e.g., expression or hairstyle) introduce intra-class variation. Capturing this hierarchical organization is essential for generating diverse yet category-consistent images. <strong>Hyperbolic space</strong> provides a natural embedding for such structures, as it can represent tree-like relationships with low distortion.</p>
+  <br>
+  <img class="summary-img" src="./HypDAE_images/Poincare_disk-1.png" style="width:100%;"> <br>
+  <p><em>Illustration of the property of hyperbolic space on the Poincaré disk.</em> Given two latent codes of Maltese dog on the edge of Poincaré disk, the geodesic between these two points is the red curve rather than a straight line in Euclidean space. Therefore, their average latent code is calculated closer to the center, which can be viewed as the "parent" of the child codes. One can generate diverse images without changing the category by moving the latent code from one child to another of the same parent in the hyperbolic space.</p>
 </div>
 
 <div class="content">
-  <h2>Approach</h2>
-  <p>Our method consists of two stages: 1) in stage 1, given the input image of object and background, and text instruction that indicates the location for object compositing to the background, the MLLMs are finetuned on our customized dataset for predicting a 2.5D location, which provides the bounding box and a depth value of the object in the background; 2) in stage 2, our Bifröst performs 3D-aware image compositing according to the generated 2.5D location, images of object and background and their depth maps estimated by a depth predictor. As we divide the pipeline into two stages, we can adopt the existing benchmarks that have been collected for common vision problems and avoid the demand of collected new and task-specific paired data.</p>
+  <h2>Method</h2>
+  <p>We design a two-stage model for HypDAE: 1) In Stage I, a diffusion autoencoder maps input images to meaningful latent codes, serving as conditions for the pre-trained Stable Diffusion (SD). To enhance diversity and prevent direct replication, a content bottleneck and strong augmentation techniques are applied. 2) In Stage II, a hyperbolic encoder-decoder projects visual features from Stage I into hyperbolic space using supervised classification loss and then reconstructs them in Euclidean space. This process captures hierarchical relationships within the image corpus, facilitating the generation of diverse images by manipulating latent codes within the same category.</p>
   <br>
-  <img class="summary-img" src="./DreamBooth_files/llm_dataset.png" style="width:100%;"> <br>
-    <br>
-   <p> Overview of the 2.5D counterfactual dataset generation for fine-tuning MLLM. Given a scene image I, one object o was randomly selected as the object we want to predict (e.g., the laptop in this figure). The depth of the object is predicted by a pre-trained depth predictor. The selected object is then removed from the given image using the SAM (i.e. mask the object) followed by an SD-based inpainting model (i.e., inpaint the masked hole). The final data pair consists of a text instruction, a counterfactual image, and a 2.5D location of the selected object o. </p>
+  <img class="summary-img" src="./HypDAE_images/Pipeline-1.png" style="width:100%;"> <br>
+  <p><em>The overview of HypDAE.</em> The hyperbolic autoencoder consists of a "semantic" encoder that maps the reference image to the semantic code (x→c), and a stable diffusion model that acts both as a "stochastic" encoder (x→z_T) and a diffusion decoder ((c′,z_T)→x′). Here, c captures the high-level semantics while z_T captures low-level stochastic variations; they can be decoded back with high fidelity. The semantic code can be edited and used as the condition for the diffusion decoder to generate diverse new images with the same category.</p>
   <br>
-    <img class="summary-img" src="./DreamBooth_files/llm_dataset_example.png" style="width:100%;"> <br>
-    <br>
-    <p>Examples of 2.5D counterfactual dataset for fine-tuning MLLM. </p>
-    <br>
-    <img class="summary-img" src="./DreamBooth_files/Pipeline.png" style="width:100%;"> <br>
-    <p> Overview of training pipeline of Bifröst on image compositing stage. A segmentation module is first adopted to get the masked image and object without background, followed by an ID extractor to obtain its identity information. The high-frequency filter is then applied to extract the detail of the object, stitch the result with the scene at the predicted location, and employ a detail extractor to complement the ID extractor with texture details. We then use a depth predictor to estimate the depth of the image and apply a depth extractor to capture the spatial information of the scene. Finally, the ID tokens, detail maps, and depth maps are integrated into a pre-trained diffusion model, enabling the target object to seamlessly blend with its surroundings while preserving complex spatial relationships.</p>
-    <br>
-    <img class="summary-img" src="./DreamBooth_files/video_dataset.png" style="width:100%;"> <br>
-    <p>Data preparation pipeline of leveraging videos. Given a clip, we first sample two frames, selecting an instance from one frame as the reference object and using the corresponding instance from the other frame as the training supervision.</p>
-
+  
+  <h3>Hyperbolic Space Representation</h3>
+  <p>To manipulate latent codes in hyperbolic space, we define a bijective map from R^n to D^n to map Euclidean vectors to the hyperbolic space and vice versa. The <em>exponential map</em> maps from the tangent spaces into the manifold, while the <em>logarithmic map</em> is the reverse operation. This enables us to perform optimization in the tangent space while maintaining the geometric properties of the hyperbolic manifold.</p>
 </div>
 
 
 <div class="content">
   <h2>Results</h2>
-  <p>Qualitative comparison with reference-based image generation methods, including Paint-by-Example (Yang et al., 2023), ObjectStitch (Song et al., 2023), and AnyDoor (Chen et al., 2024), where our Bifröst better preserves the geometry consistency. Note that all approaches do not fine-tune the model on the test samples.</p>
+  <p>We evaluate HypDAE on multiple few-shot image generation benchmarks including Animal Faces, Flowers, VGGFaces, and NABirds datasets. HypDAE demonstrates superior performance in generating diverse and high-quality images while maintaining category consistency.</p>
   <br>
-  <img class="summary-img" src="./DreamBooth_files/Comparison.png" style="width:100%;"> <br>
+  <img class="summary-img" src="./HypDAE_images/Generation-1.png" style="width:100%;"> <br>
+  <p><em>One-shot image generation from HypDAE on Animal Faces, Flowers, VGGFaces, and NABirds.</em> Our method generates diverse and high-quality images that preserve the category-level identity while introducing meaningful variations.</p>
+  <br>
+  
+  <h3>Hierarchical Generation</h3>
+  <img class="summary-img" src="./HypDAE_images/Hierarchical_Generation-1.png" style="width:100%;"> <br>
+  <p><em>Hierarchical generation results showing controllable diversity.</em> By adjusting the radius in hyperbolic space, we can control the semantic diversity of generated images while maintaining category consistency.</p>
+  
+  <h3>Qualitative Comparison</h3>
+  <img class="summary-img" src="./HypDAE_images/Comparison-1.png" style="width:100%;"> <br>
+  <p><em>Qualitative comparison with state-of-the-art few-shot image generation methods.</em> HypDAE achieves better balance between category consistency and image diversity compared to existing approaches.</p>
 </div>
 
 <div class="content">
-  <h2>Other Application</h2>
-  <p>Results of other application scenarios of Bifröst.</p>
+  <h2>Applications</h2>
+  <p>HypDAE enables various downstream applications including controllable image editing and semantic interpolation in hyperbolic space.</p>
   <br>
-  <img class="summary-img" src="./DreamBooth_files/applications.png" style="width:100%;"> <br>
+  <img class="summary-img" src="./HypDAE_images/Image_Editing-1.png" style="width:100%;"> <br>
+  <p><em>Image editing applications.</em> HypDAE enables fine-grained control over semantic attributes while preserving the overall identity of the generated images.</p>
 </div>
 
 
 <div class="content">
   <h2>Ablation Studies</h2>
-  <p>Qualitative ablation study on the core components of Bifröst, where the last column is the result of our full model, “HF-Filter” stands for the high-frequency filter in the detail extractor.</p>
-  <img class="summary-img" src="./DreamBooth_files/ablation_components.png" style="width:100%;">
+  <p>We conduct comprehensive ablation studies to validate the effectiveness of each component in HypDAE.</p>
+  <img class="summary-img" src="./HypDAE_images/Ablation_Generation-1.png" style="width:100%;">
     <br>
-    <p>Ablation study of different depth control from deep to shallow.</p>
-  <img class="summary-img" src="./DreamBooth_files/ablation_depth.png" style="width:100%;">
+    <p><em>Ablation study on key components of HypDAE.</em> The study demonstrates the importance of hyperbolic space representation and the two-stage architecture for achieving high-quality few-shot generation.</p>
 </div>
 
 <div class="content">
   <h2>More Visualizations</h2>
     <p>
-        <h3>More examples of 2.5D counterfactual dataset for Fine-tuning MLLM.</h3>
+        <h3>Additional Generation Results</h3>
     </p>
   <br>
-  <img class="summary-img" src="./DreamBooth_files/llm_dataset_examples.png" style="width:100%;"> <br>
-    <p>
-        <h3>More results generated by Bifröst with language instructions</h3>
-    </p>
-  <br>
-  <img class="summary-img" src="./DreamBooth_files/more_results.png" style="width:100%;"> <br>
-    <p>
-        <h3>More qualitative comparison with reference-based image generation methods</h3>
-    </p>
-  <br>
-  <img class="summary-img" src="./DreamBooth_files/more_comparison.png" style="width:100%;"> <br>
+  <img class="summary-img" src="./HypDAE_images/More_Generation-1.png" style="width:100%;"> <br>
+  <p><em>Additional generation results from HypDAE.</em> Our method consistently generates high-quality and diverse images across different categories while maintaining semantic consistency.</p>
 </div>
 
 <div class="content">
   <h2>BibTex</h2>
-  <code>@INPROCEEDINGS{Li24,<br>
-  &nbsp;&nbsp;title	= {BIFRÖST: 3D-Aware Image compositing with Language Instructions},<br>
-  &nbsp;&nbsp;author	= {Lingxiao Li and Kaixiong Gong and Weihong Li and Xili Dai and Tao Chen and Xiaojun Yuan and Xiangyu Yue},<br>
-  &nbsp;&nbsp;booktitle={Advanced Neural Information Processing System (NeurIPS)},<br>
-  &nbsp;&nbsp;year={2024}<br>
+  <code>@misc{li2024hypdae,<br>
+  &nbsp;&nbsp;title={HypDAE: Hyperbolic Diffusion Autoencoders for Hierarchical Few-shot Image Generation},<br>
+  &nbsp;&nbsp;author={Lingxiao Li and Kaixuan Fan and Boqing Gong and Xiangyu Yue},<br>
+  &nbsp;&nbsp;year={2024},<br>
+  &nbsp;&nbsp;eprint={2411.17784},<br>
+  &nbsp;&nbsp;archivePrefix={arXiv},<br>
+  &nbsp;&nbsp;primaryClass={cs.CV}<br>
   }</code>
 </div>
 
