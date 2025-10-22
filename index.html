@@ -41,7 +41,7 @@
   
   <br>
     <img class="summary-img" src="./HypDAE_figures/Poincare.pdf" style="width:100%;"> <br>
-  <h3>Illustration of the property of hyperbolic space on the Poincaré disk. Given two latent codes of similar images on the edge of Poincaré disk, the geodesic between these two points is the red curve rather than a straight line in Euclidean space. Therefore, their average latent code is calculated closer to the center, which can be viewed as the "parent" of the leaf nodes. One can generate diverse images without changing the category by moving the latent code from one child to another of the same parent in the hyperbolic space.</h3>
+  <p>Illustration of the property of hyperbolic space on the Poincaré disk. Given two latent codes of similar images on the edge of Poincaré disk, the geodesic between these two points is the red curve rather than a straight line in Euclidean space. Therefore, their average latent code is calculated closer to the center, which can be viewed as the "parent" of the leaf nodes. One can generate diverse images without changing the category by moving the latent code from one child to another of the same parent in the hyperbolic space.</p>
 </div>
     
 <div class="content">
@@ -50,7 +50,7 @@
   
   <br>
   <img class="summary-img" src="./HypDAE_figures/Pipeline.png" style="width:100%;"> <br>
-  <h3>Overview of HypDAE training pipeline. Our method consists of a hyperbolic autoencoder that captures hierarchical semantic relationships and a diffusion decoder that generates high-quality images. The hyperbolic space enables controllable generation through radius adjustment and semantic interpolation.</h3>
+  <p>Overview of HypDAE training pipeline. Our method consists of a hyperbolic autoencoder that captures hierarchical semantic relationships and a diffusion decoder that generates high-quality images. The hyperbolic space enables controllable generation through radius adjustment and semantic interpolation.</p>
   
   <h3>Hyperbolic Space for Hierarchical Representation</h3>
   <p>Unlike Euclidean spaces (zero curvature) or spherical spaces (positive curvature), hyperbolic spaces exhibit negative curvature, making them ideal for modeling hierarchical data. As a continuous analog of trees, hyperbolic space enables hierarchical representation through its exponential radius growth, facilitating structured modeling across different semantic levels.</p>
@@ -69,19 +69,19 @@
   <p>We demonstrate HypDAE's effectiveness on few-shot image generation across multiple datasets. Our method generates diverse and high-quality images while preserving category-specific features from just a few reference examples.</p>
   <br>
   <img class="summary-img" src="./HypDAE_figures/Generation.png" style="width:100%;"> <br>
-  <h3>Few-shot image generation results. HypDAE generates diverse images that maintain category consistency while showing clear visual variations. The hyperbolic representation allows for controlled diversity through radius adjustment.</h3>
+  <p>Few-shot image generation results. HypDAE generates diverse images that maintain category consistency while showing clear visual variations. The hyperbolic representation allows for controlled diversity through radius adjustment.</p>
   
   <h3>Hierarchical Generation</h3>
   <p>A key advantage of HypDAE is its ability to perform hierarchical image generation by leveraging the structure of hyperbolic space. By adjusting the radius in hyperbolic space, we can control the semantic level of generated variations.</p>
   <br>
   <img class="summary-img" src="./HypDAE_figures/Hierarchical_Generation.png" style="width:100%;"> <br>
-  <h3>Hierarchical generation results showing how HypDAE can generate images at different semantic levels by varying the hyperbolic radius. Smaller radii produce more diverse variations, while larger radii maintain stronger category consistency.</h3>
+  <p>Hierarchical generation results showing how HypDAE can generate images at different semantic levels by varying the hyperbolic radius. Smaller radii produce more diverse variations, while larger radii maintain stronger category consistency.</p>
   
   <h3>Comparison with State-of-the-Art Methods</h3>
   <p>We compare HypDAE against existing few-shot image generation methods including WaveGAN, HAE, and SAGE. Our method achieves superior performance in terms of both image quality and diversity metrics.</p>
   <br>
   <img class="summary-img" src="./HypDAE_figures/Comparison.png" style="width:100%;"> <br>
-  <h3>Qualitative comparison with state-of-the-art few-shot image generation methods. HypDAE produces images with better quality and diversity while maintaining category consistency.</h3>
+  <p>Qualitative comparison with state-of-the-art few-shot image generation methods. HypDAE produces images with better quality and diversity while maintaining category consistency.</p>
 </div>
 
 <div class="content">
