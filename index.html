@@ -40,17 +40,17 @@
   <p>The core challenge in few-shot image generation lies in balancing category consistency and image diversity with limited data. Most existing methods struggle to achieve this balance - they either produce images that are too similar to the reference samples (limited diversity) or generate images that deviate significantly from the target category (poor consistency). Additionally, these methods offer limited controllability over the generation process, making it difficult to specify desired attributes in the generated images.</p>
   
   <br>
-  <img class="summary-img" src="./HypDAE_figures/Pipeline.png" style="width:100%;"> <br>
-  <p>Overview of HypDAE training pipeline. Our method consists of a hyperbolic autoencoder that captures hierarchical semantic relationships and a diffusion decoder that generates high-quality images. The hyperbolic space enables controllable generation through radius adjustment and semantic interpolation.</p>
-</div>
+    <img class="summary-img" src="./HypDAE_figures/Poincaré.png" style="width:100%;"> <br>
+  <p>Illustration of the property of hyperbolic space on the Poincaré disk. Given two latent codes of similar images on the edge of Poincaré disk, the geodesic between these two points is the red curve rather than a straight line in Euclidean space. Therefore, their average latent code is calculated closer to the center, which can be viewed as the "parent" of the leaf nodes. One can generate diverse images without changing the category by moving the latent code from one child to another of the same parent in the hyperbolic space.</p>
 
 <div class="content">
   <h2>Method</h2>
   <p>To generate diverse new images from a few reference images while preserving their identity, it is essential for our model to understand the hierarchical semantic relationships between different categories and within each category. HypDAE achieves this by operating in hyperbolic space, which is naturally suited for representing hierarchical structures.</p>
   
   <br>
-  <img class="summary-img" src="./HypDAE_figures/Poincaré.png" style="width:100%;"> <br>
-  <p>Illustration of the property of hyperbolic space on the Poincaré disk. Given two latent codes of similar images on the edge of Poincaré disk, the geodesic between these two points is the red curve rather than a straight line in Euclidean space. Therefore, their average latent code is calculated closer to the center, which can be viewed as the "parent" of the leaf nodes. One can generate diverse images without changing the category by moving the latent code from one child to another of the same parent in the hyperbolic space.</p>
+  <img class="summary-img" src="./HypDAE_figures/Pipeline.png" style="width:100%;"> <br>
+  <p>Overview of HypDAE training pipeline. Our method consists of a hyperbolic autoencoder that captures hierarchical semantic relationships and a diffusion decoder that generates high-quality images. The hyperbolic space enables controllable generation through radius adjustment and semantic interpolation.</p>
+</div>
   
   <h3>Hyperbolic Space for Hierarchical Representation</h3>
   <p>Unlike Euclidean spaces (zero curvature) or spherical spaces (positive curvature), hyperbolic spaces exhibit negative curvature, making them ideal for modeling hierarchical data. As a continuous analog of trees, hyperbolic space enables hierarchical representation through its exponential radius growth, facilitating structured modeling across different semantic levels.</p>
@@ -111,11 +111,11 @@
 
 <div class="content">
   <h2>BibTex</h2>
-  <code>@article{Li24HypDAE,<br>
+  <code>@INPROCEEDINGS{Li25HypDAE,<br>
   &nbsp;&nbsp;title = {HypDAE: Hyperbolic Diffusion Autoencoders for Hierarchical Few-shot Image Generation},<br>
   &nbsp;&nbsp;author = {Lingxiao Li and Kaixuan Fan and Boqing Gong and Xiangyu Yue},<br>
-  &nbsp;&nbsp;journal = {arXiv preprint arXiv:2411.17784},<br>
-  &nbsp;&nbsp;year = {2024}<br>
+  &nbsp;&nbsp;booktitle = {International Conference on Computer Vision (ICCV)},<br>
+  &nbsp;&nbsp;year = {2025}<br>
   }</code>
 </div>
 
