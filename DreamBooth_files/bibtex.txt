@@ -1,6 +1,6 @@
-@article{Li24HypDAE,
+@INPROCEEDINGS{Li25HypDAE,
   title = {HypDAE: Hyperbolic Diffusion Autoencoders for Hierarchical Few-shot Image Generation},
   author = {Lingxiao Li and Kaixuan Fan and Boqing Gong and Xiangyu Yue},
-  journal = {arXiv preprint arXiv:2411.17784},
-  year = {2024}
+  booktitle = {International Conference on Computer Vision (ICCV)},
+  year = {2025}
 }
